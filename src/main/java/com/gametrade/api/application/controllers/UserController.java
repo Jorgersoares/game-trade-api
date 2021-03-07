@@ -2,6 +2,7 @@ package com.gametrade.api.application.controllers;
 
 import com.gametrade.api.model.Usuario;
 import com.gametrade.api.model.repository.UsuarioRepository;
+import com.gametrade.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class UserController {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/users")
     public ResponseEntity<List<Usuario>> listUser() {
         List<Usuario> usuarios = usuarioRepository.findAll();
@@ -26,13 +30,18 @@ public class UserController {
     @GetMapping("/users/{id}")
     public ResponseEntity<Usuario> getUser(@PathVariable long id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
-        return new ResponseEntity<>(usuario.orElse(null), HttpStatus.OK);
+        Usuario user = usuario.orElse(null);
+        HttpStatus httpStatus = HttpStatus.OK;
+        if(user == null){
+            httpStatus = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(usuario.orElse(null), httpStatus);
     }
 
     @PostMapping("/users")
     public ResponseEntity<Usuario> addUser(@Valid @RequestBody Usuario user) {
-        usuarioRepository.save(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        Usuario user$ = userService.createUser(user);
+        return new ResponseEntity<>(user$, HttpStatus.CREATED);
     }
 
 }
