@@ -1,5 +1,6 @@
 package com.gametrade.api.application.controllers;
 
+import com.gametrade.api.exception.AppException;
 import com.gametrade.api.model.Usuario;
 import com.gametrade.api.model.repository.UsuarioRepository;
 import com.gametrade.api.service.UserService;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -29,17 +29,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<Usuario> getUser(@PathVariable long id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-        Usuario user = usuario.orElse(null);
-        HttpStatus httpStatus = HttpStatus.OK;
-        if(user == null){
-            httpStatus = HttpStatus.NOT_FOUND;
-        }
-        return new ResponseEntity<>(usuario.orElse(null), httpStatus);
+        Usuario user = userService.getUsuario(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Usuario> addUser(@Valid @RequestBody Usuario user) {
+    public ResponseEntity<Usuario> addUser(@Valid @RequestBody Usuario user) throws AppException {
         Usuario user$ = userService.createUser(user);
         return new ResponseEntity<>(user$, HttpStatus.CREATED);
     }
