@@ -2,11 +2,11 @@ package com.gametrade.api.service;
 
 import com.gametrade.api.exception.AppException;
 import com.gametrade.api.model.Usuario;
-import com.gametrade.api.model.dtos.ApiErrorResponse;
 import com.gametrade.api.model.repository.UsuarioRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,11 +17,14 @@ public class UserService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public Usuario createUser(Usuario usuario) throws AppException {
         Usuario user = usuarioRepository.findByEmail(usuario.getEmail());
 
         if (user == null) {
-            String hashPassword = BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt());
+            String hashPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
             usuario.setPassword(hashPassword);
             return usuarioRepository.save(usuario);
         }
