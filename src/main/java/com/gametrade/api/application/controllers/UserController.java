@@ -33,11 +33,4 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
 
     }
-
-    @PostMapping("/users")
-    public ResponseEntity<Usuario> addUser(@Valid @RequestBody Usuario user) throws AppException {
-        Usuario user$ = userService.createUser(user);
-        return new ResponseEntity<>(user$, HttpStatus.CREATED);
-    }
-
 }
