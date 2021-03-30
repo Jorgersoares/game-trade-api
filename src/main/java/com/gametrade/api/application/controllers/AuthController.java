@@ -2,9 +2,9 @@ package com.gametrade.api.application.controllers;
 
 import com.gametrade.api.exception.AppException;
 import com.gametrade.api.model.Usuario;
-import com.gametrade.api.model.dtos.LoginRequest;
-import com.gametrade.api.service.AuthService;
-import com.gametrade.api.service.UserService;
+import com.gametrade.api.presentation.dtos.LoginRequest;
+import com.gametrade.api.application.service.AuthService;
+import com.gametrade.api.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

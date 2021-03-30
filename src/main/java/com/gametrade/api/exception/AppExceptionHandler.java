@@ -1,7 +1,7 @@
 package com.gametrade.api.exception;
 
 
-import com.gametrade.api.model.dtos.ApiErrorResponse;
+import com.gametrade.api.presentation.dtos.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

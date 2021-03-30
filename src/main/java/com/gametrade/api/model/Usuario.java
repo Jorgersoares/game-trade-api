@@ -1,19 +1,21 @@
 package com.gametrade.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 public class Usuario {
 
-    private @Id @GeneratedValue
-    long id;
+    @Id
+    @GeneratedValue
+    private long id;
     private @NotBlank String email;
     private @NotBlank String password;
     private @NotBlank String firstName;
     private @NotBlank String lastName;
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<ProductItem> productItems;
 
     public long getId() {
         return id;
@@ -53,5 +55,13 @@ public class Usuario {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Set<ProductItem> getProductItems() {
+        return productItems;
+    }
+
+    public void setProductItems(Set<ProductItem> productItems) {
+        this.productItems = productItems;
     }
 }

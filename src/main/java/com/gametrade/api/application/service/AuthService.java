@@ -1,9 +1,9 @@
-package com.gametrade.api.service;
+package com.gametrade.api.application.service;
 
 import com.gametrade.api.exception.AppException;
 import com.gametrade.api.model.Usuario;
-import com.gametrade.api.model.dtos.LoginRequest;
-import com.gametrade.api.model.repository.UsuarioRepository;
+import com.gametrade.api.presentation.dtos.LoginRequest;
+import com.gametrade.api.infra.persistence.repository.UsuarioRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

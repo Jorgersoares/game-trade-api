@@ -1,15 +1,12 @@
 package com.gametrade.api.application.controllers;
 
-import com.gametrade.api.exception.AppException;
 import com.gametrade.api.model.Usuario;
-import com.gametrade.api.model.repository.UsuarioRepository;
-import com.gametrade.api.service.UserService;
+import com.gametrade.api.infra.persistence.repository.UsuarioRepository;
+import com.gametrade.api.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

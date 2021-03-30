@@ -1,4 +1,4 @@
-package com.gametrade.api.model.dtos;
+package com.gametrade.api.presentation.dtos;
 
 import org.springframework.http.HttpStatus;
 

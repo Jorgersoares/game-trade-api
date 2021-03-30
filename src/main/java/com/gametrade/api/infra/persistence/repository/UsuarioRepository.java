@@ -1,4 +1,4 @@
-package com.gametrade.api.model.repository;
+package com.gametrade.api.infra.persistence.repository;
 
 import com.gametrade.api.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
