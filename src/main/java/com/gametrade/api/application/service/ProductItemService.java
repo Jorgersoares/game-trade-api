@@ -34,7 +34,7 @@ public class ProductItemService {
 	public HttpStatus delete(Long id) throws AppException {
 		Optional<ProductItem> product = productItemRepository.findById(id);
 		
-		if (product.isEmpty()) {
+		if (!product.isPresent()) {
 			throw new AppException(HttpStatus.NOT_FOUND, "Nenhum produto encontrado com esse id.", HttpStatus.NOT_FOUND.value());
 		} 
 		
@@ -46,7 +46,7 @@ public class ProductItemService {
 		
 		Optional<ProductItem> product = productItemRepository.findById(productItem.getId());
 		
-		if (!product.isEmpty()) {
+		if (!product.isPresent()) {
 			product.get().setTitle(productItem.getTitle());
 			product.get().setDescription(productItem.getDescription());
 			product.get().setImagePath(productItem.getImagePath());
