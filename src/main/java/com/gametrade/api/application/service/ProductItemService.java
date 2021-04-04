@@ -46,13 +46,15 @@ public class ProductItemService {
 		
 		Optional<ProductItem> product = productItemRepository.findById(productItem.getId());
 		
-		if (!product.isPresent()) {
+		if (product.isPresent()) {
 			product.get().setTitle(productItem.getTitle());
 			product.get().setDescription(productItem.getDescription());
 			product.get().setImagePath(productItem.getImagePath());
 			product.get().setProductItemLabel(productItem.getProductItemLabel());
 			product.get().setPrice(productItem.getPrice());
 			productItemRepository.save(product.get());
+		} else {
+			throw new AppException(HttpStatus.NOT_FOUND, "Nenhum produto encontrado com esse id.", HttpStatus.NOT_FOUND.value());
 		}
 		
 	}
