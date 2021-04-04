@@ -3,8 +3,11 @@ package com.gametrade.api.application.controllers;
 import com.gametrade.api.model.ProductItem;
 import com.gametrade.api.model.Usuario;
 import com.gametrade.api.presentation.dtos.ProductItemResponse;
+import com.gametrade.api.presentation.dtos.ProductItemUpdate;
 import com.gametrade.api.application.service.ProductItemService;
 import com.gametrade.api.application.service.UserService;
+import com.gametrade.api.exception.AppException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/items")
 public class ProductItemController {
 
@@ -54,5 +58,18 @@ public class ProductItemController {
         Usuario usuario = userService.getUsuario(Long.parseLong(userId));
         ProductItem productItemCreate = productItemService.adicionar(usuario, productItem);;
         return new ResponseEntity<>(modelMapper.map(productItemCreate, ProductItemResponse.class), HttpStatus.CREATED);
+    }
+    
+    @PatchMapping("/")
+    public ResponseEntity<HttpStatus> editProductItem(@RequestBody ProductItemUpdate productItem) {
+    	productItemService.editProductItem(productItem);
+    	return new ResponseEntity<>(HttpStatus.OK);
+    	
+	}
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteProductItem(@PathVariable Long id) throws AppException{
+    	productItemService.delete(id);
+    	return new ResponseEntity<>(HttpStatus.OK);
     }
 }
