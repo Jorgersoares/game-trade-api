@@ -5,6 +5,8 @@ import com.gametrade.api.model.Usuario;
 import com.gametrade.api.presentation.dtos.LoginRequest;
 import com.gametrade.api.application.service.AuthService;
 import com.gametrade.api.application.service.UserService;
+import com.gametrade.api.presentation.dtos.UserResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +25,18 @@ public class AuthController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @PostMapping("/login")
-    public ResponseEntity<Usuario> login(@Valid @RequestBody LoginRequest loginForm) throws AppException {
-        return new ResponseEntity<>(authService.login(loginForm), HttpStatus.OK);
+    public ResponseEntity<UserResponse> login(@Valid @RequestBody LoginRequest loginForm) throws AppException {
+        Usuario user = authService.login(loginForm);
+        return new ResponseEntity<>(modelMapper.map(user, UserResponse.class), HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Usuario> addUser(@Valid @RequestBody Usuario user) throws AppException {
+    public ResponseEntity<UserResponse> addUser(@Valid @RequestBody Usuario user) throws AppException {
         Usuario user$ = userService.createUser(user);
-        return new ResponseEntity<>(user$, HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(user$, UserResponse.class), HttpStatus.CREATED);
     }
 }
