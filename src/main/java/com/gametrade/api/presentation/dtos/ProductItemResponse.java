@@ -61,7 +61,7 @@ public class ProductItemResponse {
     }
 
     public String getUsuario() {
-        return usuario.getFirstName();
+        return usuario.getEmail();
     }
 
     public void setUsuario(Usuario usuario) {
