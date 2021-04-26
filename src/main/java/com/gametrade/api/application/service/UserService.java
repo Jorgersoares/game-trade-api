@@ -3,6 +3,7 @@ package com.gametrade.api.application.service;
 import com.gametrade.api.exception.AppException;
 import com.gametrade.api.model.Usuario;
 import com.gametrade.api.infra.persistence.repository.UsuarioRepository;
+import com.gametrade.api.presentation.dtos.EditUserRequest;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,21 @@ public class UserService {
         }
 
         throw new AppException(HttpStatus.NOT_FOUND, "Nenhum usuário encontrado com esse Id.", HttpStatus.NOT_FOUND.value());
+    }
+
+    public Usuario updateUsuario(Long id, EditUserRequest editUserRequest) throws AppException {
+        Usuario user = this.getUsuario(id);
+
+        if (!editUserRequest.getEmail().equals(user.getEmail())) {
+            Usuario userEmail = usuarioRepository.findByEmail(editUserRequest.getEmail());
+            if (userEmail != null) {
+                throw new AppException(HttpStatus.CONFLICT, "Usuário já cadastrado com esse email.", HttpStatus.CONFLICT.value());
+            }
+        }
+        user.setEmail(editUserRequest.getEmail());
+        user.setFirstName(editUserRequest.getFirstName());
+        user.setLastName(editUserRequest.getLastName());
+
+        return usuarioRepository.save(user);
     }
 }
